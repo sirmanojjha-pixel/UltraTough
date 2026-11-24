@@ -130,7 +130,7 @@ footer{background:#04132c;color:#c8d4e6;padding:28px 0;font-size:13px}.foot{disp
 </div>
 </div></div></section>
 </main>
-<footer><div class="container foot"><span>© <span id="year"></span> <strong>UltraTough Precast Boundary Wall</strong>. सर्वाधिकार सुरक्षित।</span><span>मजबूती • भरोसा • सुरक्षा</span></div></footer>
+<footer><div class="container foot" style="align-items:center;"><span>© <span id="year"></span> <strong>UltraTough Precast Boundary Wall</strong>. सर्वाधिकार सुरक्षित।</span><span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,217,0,0.12);border:1px solid rgba(255,217,0,0.35);color:#ffd900;padding:4px 12px;border-radius:999px;font-weight:700;font-size:12px;">👁️ कुल विज़िटर्स: <strong id="visitor-count" style="color:#fff;">...</strong></span><span>मजबूती • भरोसा • सुरक्षा</span></div></footer>
 <a class="float-wa" href="https://wa.me/916207758737?text=Namaste%2C%20UltraTough%20ke%20products%20ki%20jankari%20chahiye." aria-label="WhatsApp पर संपर्क करें">☏ WhatsApp</a>
 <script>document.getElementById('year').textContent=new Date().getFullYear();document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>document.querySelector('.links').classList.remove('open')));</script>
 
@@ -163,6 +163,27 @@ footer{background:#04132c;color:#c8d4e6;padding:28px 0;font-size:13px}.foot{disp
     const diff = e.changedTouches[0].clientX - startX;
     if(Math.abs(diff) > 40) window.moveAboutSlide(diff < 0 ? 1 : -1);
   }, {passive:true});
+})();
+</script>
+
+<script>
+(function(){
+  const countEl = document.getElementById('visitor-count');
+  if(!countEl) return;
+  fetch('https://api.counterapi.dev/v1/ultratough-precast-wall/visits/up')
+    .then(res => res.json())
+    .then(data => {
+      if(data && typeof data.count !== 'undefined') {
+        countEl.textContent = Number(data.count).toLocaleString('en-IN');
+      } else {
+        throw new Error('Invalid response');
+      }
+    })
+    .catch(() => {
+      let localViews = Number(localStorage.getItem('ut_local_views') || '0') + 1;
+      localStorage.setItem('ut_local_views', String(localViews));
+      countEl.textContent = localViews.toLocaleString('en-IN');
+    });
 })();
 </script>
 </body></html>
